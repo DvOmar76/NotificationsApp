@@ -18,8 +18,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     val channel_Id="channel_id_654"
     val notificationId=123
-
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -29,8 +28,7 @@ class MainActivity : AppCompatActivity() {
             val notification=binding.edNotification.text
             if(notification.toString().isNotEmpty())
             {
-//                createNotification(notification.toString())
-                cn(notification.toString())
+                createNotification(notification.toString())
                 notification.clear()
             }
             else
@@ -40,31 +38,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
     @SuppressLint("ObsoleteSdkInt")
+
     fun createNotification(text:String){
-        val title="My Notification"
-
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
-        {
-            val importance:Int =NotificationManager.IMPORTANCE_DEFAULT
-            val channel:NotificationChannel=NotificationChannel(channel_Id,title,importance).apply {
-                description=text
-            }
-            val notificationManager:NotificationManager=getSystemService(Context.NOTIFICATION_SERVICE)as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-        else
-        {
-            val builder=NotificationCompat.Builder(this,channel_Id)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            with(NotificationManagerCompat.from(this)){
-                notify(notificationId,builder.build())
-            }
-        }
-    }
-
-    fun cn(text:String){
         var builder:Notification.Builder
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -72,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(notificationChannel)
             builder = Notification.Builder(this, channel_Id)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-
                 .setContentTitle("My Notification")
                 .setContentText(text)
         }
